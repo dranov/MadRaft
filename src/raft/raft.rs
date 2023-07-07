@@ -358,7 +358,7 @@ impl Raft {
 
         async move {
             // FIXME: crash on partial write
-            let mut file = File::create("state").await?;
+            let file = File::create("state").await?;
             file.write_all_at(&data, 0).await?;
             file.sync_all().await?;
             Ok(())
@@ -370,7 +370,7 @@ impl Raft {
         let f1 = self.persist();
         let f2 = async move {
             // FIXME: crash on partial write
-            let mut file = File::create("snapshot").await?;
+            let file = File::create("snapshot").await?;
             file.write_all_at(&snapshot, 0).await?;
             file.sync_all().await?;
             Ok(()) as io::Result<()>
